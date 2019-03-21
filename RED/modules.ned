@@ -20,6 +20,9 @@ import inet.common.queue.IOutputQueue;
 import inet.common.queue.RedDropper;
 import inet.node.inet.Router;
 import ned.IdealChannel;
+import inet.common.queue.PriorityScheduler;
+import inet.common.queue.WrrScheduler;
+import inet.networklayer.diffserv.BehaviorAggregateClassifier;
 
 
 module REDQueue like IOutputQueue
@@ -44,3 +47,60 @@ module REDQueue like IOutputQueue
         fifo.out --> out;
 }
 
+module NetworkSimulatorQueue like IOutputQueue
+{
+    parameters:
+        int frameCapacity = default(100);
+
+    gates:
+        input in;
+        output out;
+
+    submodules:
+        classifier: BehaviorAggregateClassifier {
+            dscps = "EF AF11 AF21 AF31 AF41";
+            @display("p=100,350");
+        }
+        efQueue: REDQueue {
+            @display("p=250,100");
+        }
+        af1xQueue: REDQueue {
+            @display("p=250,200");
+        }
+        af2xQueue: REDQueue {
+            @display("p=250,300");
+        }
+        af3xQueue: REDQueue {
+            @display("p=250,400");
+        }
+        af4xQueue: REDQueue {
+            @display("p=250,500");
+        }
+        beQueue: REDQueue {
+            @display("p=250,600");
+        }
+        wrr: WrrScheduler {
+            @display("p=400,350");
+        }
+        priority: PriorityScheduler {
+            @display("p=550,350");
+        }
+
+    connections:
+        in --> classifier.in;
+        classifier.outs++ --> efQueue.in;
+        classifier.outs++ --> af1xQueue.in;
+        classifier.outs++ --> af2xQueue.in;
+        classifier.outs++ --> af3xQueue.in;
+        classifier.outs++ --> af4xQueue.in;
+        classifier.defaultOut --> beQueue.in;
+
+        af1xQueue.out --> wrr.in++;
+        af2xQueue.out --> wrr.in++;
+        af3xQueue.out --> wrr.in++;
+        af4xQueue.out --> wrr.in++;
+        beQueue.out --> wrr.in++;
+        efQueue.out --> priority.in++;
+        wrr.out --> priority.in++;
+        priority.out --> out;
+}
