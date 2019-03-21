@@ -23,7 +23,11 @@ import inet.common.misc.ThruputMeteringChannel;
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.node.inet.Router;
 import inet.node.inet.StandardHost;
-import inet.Network_Simulation.routers.RedRouter;
+import inet.examples.diffserv.onedomain.DSQueue1;
+import inet.examples.diffserv.onedomain.DSQueue2;
+import inet.examples.diffserv.onedomain.TC1;
+import inet.examples.diffserv.onedomain.TC2;
+import inet.examples.diffserv.onedomain.TC3;
 
 
 network DiffservNetwork
@@ -72,6 +76,9 @@ network DiffservNetwork
         R5: Router {
             @display("p=850,350");
         }
+        R0: Router {
+            @display("p=400,150");
+        }
         H5: StandardHost {
             @display("p=1000,100");
         }
@@ -93,28 +100,18 @@ network DiffservNetwork
         configurator: Ipv4NetworkConfigurator {
             @display("p=100,100;is=s");
         }
-        redRouter: RedRouter {
-            @display("p=396,156");
-        }
     connections:
+        H1.ethg++ <--> ethernetline <--> R0.ethg++;
+        H2.ethg++ <--> ethernetline <--> R0.ethg++;
         H3.ethg++ <--> ethernetline <--> R1.ethg++;
         H4.ethg++ <--> ethernetline <--> R1.ethg++;
         H5.ethg++ <--> ethernetline <--> R4.ethg++;
         H6.ethg++ <--> ethernetline <--> R4.ethg++;
         H7.ethg++ <--> ethernetline <--> R5.ethg++;
         H8.ethg++ <--> ethernetline <--> R5.ethg++;
+        R0.pppg++ <--> edgeline <--> R2.pppg++;
         R1.pppg++ <--> edgeline <--> R2.pppg++;
         R2.pppg++ <--> coreline <--> R3.pppg++;
         R4.pppg++ <--> coreline <--> R3.pppg++;
         R5.pppg++ <--> coreline <--> R3.pppg++;
-        R1.pppg++ <--> edgeline <--> R2.pppg++;
-        R2.pppg[0] <--> edgeline <--> redRouter.pppg[0];
-        H1.ethg[0] <--> ethernetline <--> redRouter.ethg[0];
-        H2.ethg[0] <--> ethernetline <--> redRouter.ethg[0];
-}
-channel edgeline extends ThruputMeteringChannel
-{
-    delay = 2ms;
-    datarate = edgeDatarate;
-    thruputDisplayFormat = "b B U";
 }

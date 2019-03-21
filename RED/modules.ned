@@ -13,7 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package inet.Network_Simulation.routers;
+package inet.Network_Simulation.RED;
+
 import inet.common.queue.FifoQueue;
 import inet.common.queue.IOutputQueue;
 import inet.common.queue.RedDropper;
@@ -41,11 +42,5 @@ module REDQueue like IOutputQueue
         in --> red.in[0];
         red.out[0] --> fifo.in++;
         fifo.out --> out;
-}
-
-module RedRouter extends Router
-{
-    submodules:
-    connections:
 }
 
