@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package inet.Network_Simulation.RED;
+package inet.Network_Simulation.diffserv.onedomain;
 
 import inet.common.queue.FifoQueue;
 import inet.common.queue.IOutputQueue;
@@ -49,9 +49,6 @@ module REDQueue like IOutputQueue
 
 module NetworkSimulatorQueue like IOutputQueue
 {
-    parameters:
-        int frameCapacity = default(100);
-
     gates:
         input in;
         output out;

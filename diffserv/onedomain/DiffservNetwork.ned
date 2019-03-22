@@ -23,12 +23,6 @@ import inet.common.misc.ThruputMeteringChannel;
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.node.inet.Router;
 import inet.node.inet.StandardHost;
-import inet.examples.diffserv.onedomain.DSQueue1;
-import inet.examples.diffserv.onedomain.DSQueue2;
-import inet.examples.diffserv.onedomain.TC1;
-import inet.examples.diffserv.onedomain.TC2;
-import inet.examples.diffserv.onedomain.TC3;
-
 
 network DiffservNetwork
 {
