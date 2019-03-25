@@ -23,6 +23,7 @@ import ned.IdealChannel;
 import inet.common.queue.PriorityScheduler;
 import inet.common.queue.WrrScheduler;
 import inet.networklayer.diffserv.BehaviorAggregateClassifier;
+import inet.common.queue.DropTailQueue;
 
 
 module REDQueue like IOutputQueue
@@ -58,7 +59,7 @@ module NetworkSimulatorQueue like IOutputQueue
             dscps = "EF AF11 AF21 AF31 AF41";
             @display("p=100,350");
         }
-        efQueue: REDQueue {
+        efQueue: DropTailQueue {
             @display("p=250,100");
         }
         af1xQueue: REDQueue {
@@ -73,7 +74,7 @@ module NetworkSimulatorQueue like IOutputQueue
         af4xQueue: REDQueue {
             @display("p=250,500");
         }
-        beQueue: REDQueue {
+        beQueue: DropTailQueue {
             @display("p=250,600");
         }
         wrr: WrrScheduler {
