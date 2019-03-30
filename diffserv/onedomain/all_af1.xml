@@ -1,0 +1,8 @@
+<filters>
+  <experiment id="default">
+    <filter srcAddress="H1" gate="1"/>
+    <filter srcAddress="H2" gate="1"/>
+    <filter srcAddress="H3" gate="1"/>
+    <filter srcAddress="H4" gate="1"/>
+  </experiment>
+</filters>
